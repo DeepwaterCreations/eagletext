@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 eagletime_url = "http://eagle-time.com"
 
-def get_url_with_suffix(threadid, pagenum=0):
+def get_url_with_suffix(threadid, pagenum=1):
     """Build and return an url for a given page of a thread on Eagle Time with the given thread id"""
     return eagletime_url + "/showthread.php?tid={0}&page={1}".format(threadid, pagenum)
 
