@@ -34,11 +34,23 @@ if __name__ == "__main__":
         sys.exit("Usage: {} thread-id".format(sys.argv[0]))
 
     threadid = sys.argv[1]
+
+    author_name = None
+    posts = []
     url = get_url_with_suffix(threadid)
+    while True:
+        print(url)
+        html = requests.get(url).text
+        soup = BeautifulSoup(html, "lxml")
+        if author_name is None:
+            author_name = get_author_name(soup)
 
-    html = requests.get(url).text
-    soup = BeautifulSoup(html, "lxml")
+        posts += get_author_posts(soup, author_name)
 
-    author_name = get_author_name(soup)
-    posts = get_author_posts(soup, author_name)
+        next_button = soup.find(class_="pagination_next")
+        if next_button is None:
+            break
+        else:
+            url = eagletime_url + "/" + next_button['href']
+    
     print(posts)
