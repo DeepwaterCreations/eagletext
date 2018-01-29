@@ -42,7 +42,7 @@ def get_author_posts(soup, author_name):
     def author_filter(tag):
         return tag.has_attr('class') and "username" in tag['class'] and tag.string == author_name
     author_labels = soup.find_all(author_filter)
-    post_string_gens = [label.find_next(class_="post_body").stripped_strings for label in author_labels]
+    post_string_gens = [label.find_next(class_="post_body").strings for label in author_labels]
     posts = []
     for string_gen in post_string_gens:
         post = [s for s in string_gen]
