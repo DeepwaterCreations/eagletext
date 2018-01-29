@@ -11,7 +11,8 @@ def print_posts_to_console(posts):
     your favorite paginator
     """
     for post in posts:
-        print(post)
+        for line in post:
+            print(line)
         print()
         print("=====+++=====")
         print()

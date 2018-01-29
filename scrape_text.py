@@ -45,9 +45,7 @@ def get_author_posts(soup, author_name):
     post_string_gens = [label.find_next(class_="post_body").stripped_strings for label in author_labels]
     posts = []
     for string_gen in post_string_gens:
-        post = ""
-        for s in string_gen:
-            post += " " + s
+        post = [s for s in string_gen]
         posts.append(post)
     return posts
 
