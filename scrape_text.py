@@ -6,7 +6,10 @@ import requests
 from bs4 import BeautifulSoup
 
 eagletime_url = "http://eagle-time.com"
-thread_url_suffix = "showthread.php?tid="
+
+def get_url_with_suffix(threadid, pagenum=0):
+    """Build and return an url for a given page of a thread on Eagle Time with the given thread id"""
+    return eagletime_url + "/showthread.php?tid={0}&page={1}".format(threadid, pagenum)
 
 def get_author_name(soup):
     """Return the name of the thread's author"""
@@ -31,7 +34,7 @@ if __name__ == "__main__":
         sys.exit("Usage: {} thread-id".format(sys.argv[0]))
 
     threadid = sys.argv[1]
-    url = eagletime_url + "/" + thread_url_suffix + threadid
+    url = get_url_with_suffix(threadid)
 
     html = requests.get(url).text
     soup = BeautifulSoup(html, "lxml")
