@@ -11,6 +11,20 @@ def get_author_name(soup):
     """Return the name of the thread's author"""
     return soup.find(class_="username").string
 
+def get_author_posts(soup, author_name):
+    """Return a list of post text written by the given author"""
+    def author_filter(tag):
+        return tag.has_attr('class') and "username" in tag['class'] and tag.string == author_name
+    author_labels = soup.find_all(author_filter)
+    post_string_gens = [label.find_next(class_="post_body").stripped_strings for label in author_labels]
+    posts = []
+    for string_gen in post_string_gens:
+        post = ""
+        for s in string_gen:
+            post += " " + s
+        posts.append(post)
+    return posts
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit("Usage: {} thread-id".format(sys.argv[0]))
@@ -22,15 +36,5 @@ if __name__ == "__main__":
     soup = BeautifulSoup(html, "lxml")
 
     author_name = get_author_name(soup)
-    def author_filter(tag):
-        return tag.has_attr('class') and "username" in tag['class'] and tag.string == author_name
-    author_labels = soup.find_all(author_filter)
-    post_string_gens = [label.find_next(class_="post_body").stripped_strings for label in author_labels]
-    posts = []
-    for string_gen in post_string_gens:
-        post = ""
-        for s in string_gen:
-            post += " " + s
-        posts.append(post)
-
+    posts = get_author_posts(soup, author_name)
     print(posts)
