@@ -6,6 +6,15 @@ import sys
 
 from scrape_text import get_author_posts_from_all_pages
 
+def print_posts_to_console(posts):
+    """Output posts to console separated by lines for easy reading with
+    your favorite paginator
+    """
+    for post in posts:
+        print(post)
+        print()
+        print("=====+++=====")
+        print()
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
@@ -14,4 +23,4 @@ if __name__ == "__main__":
     threadid = sys.argv[1]
     posts = get_author_posts_from_all_pages(threadid)
 
-    print(posts)
+    print_posts_to_console(posts)
