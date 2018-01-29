@@ -1,10 +1,19 @@
 #! /usr/bin/env python3
 
+import sys
 import requests
 from bs4 import BeautifulSoup
 
+eagletime_url = "http://eagle-time.com"
+thread_url_suffix = "showthread.php?tid="
+
 if __name__ == "__main__":
-    url = "http://eagle-time.com/showthread.php?tid=1223"
+    if len(sys.argv) < 2:
+        sys.exit("Usage: {} thread-id".format(sys.argv[0]))
+
+    threadid = sys.argv[1]
+    url = eagletime_url + "/" + thread_url_suffix + threadid
+
     html = requests.get(url).text
     soup = BeautifulSoup(html, "lxml")
 
