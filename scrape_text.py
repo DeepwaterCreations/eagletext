@@ -7,6 +7,10 @@ from bs4 import BeautifulSoup
 eagletime_url = "http://eagle-time.com"
 thread_url_suffix = "showthread.php?tid="
 
+def get_author_name(soup):
+    """Return the name of the thread's author"""
+    return soup.find(class_="username").string
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit("Usage: {} thread-id".format(sys.argv[0]))
@@ -17,7 +21,7 @@ if __name__ == "__main__":
     html = requests.get(url).text
     soup = BeautifulSoup(html, "lxml")
 
-    author_name = soup.find(class_="username").string
+    author_name = get_author_name(soup)
     def author_filter(tag):
         return tag.has_attr('class') and "username" in tag['class'] and tag.string == author_name
     author_labels = soup.find_all(author_filter)
