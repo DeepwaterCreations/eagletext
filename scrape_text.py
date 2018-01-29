@@ -1,6 +1,7 @@
-#! /usr/bin/env python3
+#!/usr/bin/env python3
 
 import sys
+
 import requests
 from bs4 import BeautifulSoup
 
