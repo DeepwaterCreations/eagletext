@@ -51,7 +51,7 @@ def get_author_posts(soup, author_name):
 
 if __name__ == "__main__":
     if len(sys.argv) < 2:
-        sys.exit("Usage: {} thread-id".format(sys.argv[0]))
+        sys.exit("Usage: {} [thread-id]".format(sys.argv[0]))
 
     threadid = sys.argv[1]
     posts = get_author_posts_from_all_pages(threadid)
