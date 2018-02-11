@@ -17,6 +17,16 @@ def print_posts_to_console(posts):
         print("=====+++=====")
         print()
 
+def print_posts_to_html(posts):
+    """Output posts to an html document"""
+    document = ""
+    for post in posts:
+        for line in post:
+            formatted_line = "<p>{}</p>".format(line)
+            document += formatted_line
+        document += "<hr />"
+    print(document)
+
 if __name__ == "__main__":
     if len(sys.argv) < 2:
         sys.exit("Usage: {} [thread-id]".format(sys.argv[0]))
