@@ -3,18 +3,31 @@
 import sys
 
 import requests
+import progressbar
 from bs4 import BeautifulSoup
 
 eagletime_url = "http://eagle-time.com"
 
-def get_author_posts_from_all_pages(threadid):
+def get_author_posts_from_all_pages(threadid, print_progress=True):
     """Return a list of post text written by the thread's author
     across all pages in the thread
     """
     author_name = None
     posts = []
+    pagenum = 1 #Used only for progressbar
     url = get_url_with_suffix(threadid)
+    if print_progress:
+        widgets = ['Getting Page ', progressbar.Counter(), ': ',
+                progressbar.AnimatedMarker(markers='v-^-'),
+                progressbar.Timer(),
+                progressbar.AnimatedMarker(markers='^-V-')]
+        pbar = progressbar.ProgressBar(widgets=widgets)
+        pbar.update(pagenum)
+        pbar.start()
     while True:
+        if print_progress:
+            pbar.update(pagenum)
+        #TODO: Requests timeout parameter + check for failure
         html = requests.get(url).text
         soup = BeautifulSoup(html, "lxml")
         if author_name is None:
@@ -27,6 +40,7 @@ def get_author_posts_from_all_pages(threadid):
             break
         else:
             url = eagletime_url + "/" + next_button['href']
+            pagenum += 1
     return posts
 
 def get_url_with_suffix(threadid, pagenum=1):
